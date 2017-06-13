@@ -1,1 +1,45 @@
-<h1>Hello World!</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Check DingDing</title>
+    <script>
+        if (location.protocol === 'http:') {
+            location.href = location.href.replace(/^http:/, 'https:');
+        }
+    </script>
+</head>
+<body>
+    <div>
+        <button type="button" id="checkEastbound">Check Eastbound (Chai Wan)</button>
+        <button type="button" id="checkWestbound">Check Westbound (Kennedy Town)</button>
+    </div>
+    <script>
+        (function () {
+            var checkEastboundBtn = document.getElementById('checkEastbound');
+            var checkWestboundBtn = document.getElementById('checkWestbound');
+            checkEastboundBtn.addEventListener('click', function (el, ev) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', 'https://crossorigin.me/https://www.hktramways.com/nextTram/geteat.php?stop_code=71E');
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        alert(xhr.responseText);
+                    }
+                };
+                xhr.send();
+            });
+            checkWestboundBtn.addEventListener('click', function (el, ev) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET', 'https://crossorigin.me/https://www.hktramways.com/nextTram/geteat.php?stop_code=30W');
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        alert(xhr.responseText);
+                    }
+                };
+                xhr.send();
+            });
+        }())
+    </script>
+</body>
+</html>
