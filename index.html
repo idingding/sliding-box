@@ -9,37 +9,61 @@
             location.href = location.href.replace(/^http:/, 'https:');
         }
     </script>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
 </head>
 <body>
+  <div id='app'>
     <div>
         <button type="button" id="checkEastbound">Check Eastbound (Chai Wan)</button>
         <button type="button" id="checkWestbound">Check Westbound (Kennedy Town)</button>
     </div>
-    <script>
-        (function () {
-            var checkEastboundBtn = document.getElementById('checkEastbound');
-            var checkWestboundBtn = document.getElementById('checkWestbound');
-            checkEastboundBtn.addEventListener('click', function (el, ev) {
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', 'https://crossorigin.me/https://www.hktramways.com/nextTram/geteat.php?stop_code=71E');
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === XMLHttpRequest.DONE) {
-                        alert(xhr.responseText);
-                    }
-                };
-                xhr.send();
-            });
-            checkWestboundBtn.addEventListener('click', function (el, ev) {
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET', 'https://crossorigin.me/https://www.hktramways.com/nextTram/geteat.php?stop_code=30W');
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === XMLHttpRequest.DONE) {
-                        alert(xhr.responseText);
-                    }
-                };
-                xhr.send();
-            });
-        }())
-    </script>
+    <table>
+      <tr v-if='tramEta.length > 0'>
+        <th>Final Stop</th>
+        <th>ETA</th>
+      </tr>
+      <tr v-for='eta in tramEta'>
+        <td>{{eta.$.tram_dest_en}}</td>
+        <td>{{eta.$.arrive_in_minute}}</td>
+      </tr>
+    </table>
+  </div>
+  <script>
+      (function () {
+          var app = new Vue({
+            el: '#app',
+            data: {
+              tramEta: []
+            }
+          })
+
+          var checkEastboundBtn = document.getElementById('checkEastbound');
+          var checkWestboundBtn = document.getElementById('checkWestbound');
+          checkEastboundBtn.addEventListener('click', function (el, ev) {
+              var xhr = new XMLHttpRequest();
+              xhr.open('GET', 'https://idingding.azurewebsites.net/api/gettramdata?stop=71E');
+              xhr.onreadystatechange = function () {
+                  if (xhr.readyState === XMLHttpRequest.DONE) {
+                    var resData = JSON.parse(xhr.responseText)
+                    if ('metadata' in resData.root)
+                      app.tramEta = resData.root.metadata
+                  }
+              };
+              xhr.send();
+          });
+          checkWestboundBtn.addEventListener('click', function (el, ev) {
+              var xhr = new XMLHttpRequest();
+              xhr.open('GET', 'https://idingding.azurewebsites.net/api/gettramdata?stop=30W');
+              xhr.onreadystatechange = function () {
+                  if (xhr.readyState === XMLHttpRequest.DONE) {
+                    var resData = JSON.parse(xhr.responseText)
+                    if ('metadata' in resData.root)
+                      app.tramEta = resData.root.metadata
+                  }
+              };
+              xhr.send();
+          });
+      }())
+  </script>
 </body>
 </html>
