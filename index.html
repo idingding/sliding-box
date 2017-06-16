@@ -50,7 +50,7 @@
           var checkWestboundBtn = document.getElementById('checkWestbound');
           checkEastboundBtn.addEventListener('click', function (el, ev) {
               var xhr = new XMLHttpRequest();
-              xhr.open('GET', 'https://idingding.azurewebsites.net/api/gettramdata?stop=71E');
+              xhr.open('GET', 'https://53tbcx200c.execute-api.ap-northeast-1.amazonaws.com/prod/get_tram_eta?stop=71E');
               xhr.onreadystatechange = function () {
                   if (xhr.readyState === XMLHttpRequest.DONE) {
                     var resData = JSON.parse(xhr.responseText)
@@ -62,7 +62,7 @@
           });
           checkWestboundBtn.addEventListener('click', function (el, ev) {
               var xhr = new XMLHttpRequest();
-              xhr.open('GET', 'https://idingding.azurewebsites.net/api/gettramdata?stop=30W');
+              xhr.open('GET', 'https://53tbcx200c.execute-api.ap-northeast-1.amazonaws.com/prod/get_tram_eta?stop=30W');
               xhr.onreadystatechange = function () {
                   if (xhr.readyState === XMLHttpRequest.DONE) {
                     var resData = JSON.parse(xhr.responseText)
