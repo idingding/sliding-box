@@ -18,12 +18,15 @@
 
 <body>
     <div id='app'>
-        <div>
-            <button type="button" id="checkEastbound">Check Eastbound (Chai Wan)</button>
-            <button type="button" id="checkWestbound">Check Westbound (Kennedy Town)</button>
-        </div>
-        <table>
-            <tr v-if='tramEta.length > 0'>
+        <fieldset>
+            <input type="text" id="stopCodeIpt" pattern="[0-9A-Za-z_]+" maxlength="5" placeholder="Stop code name">
+            <button type="button" id="checkInputBtn">Check</button>
+        </fieldset>
+        <fieldset>
+            <button type="button" id="checkNearestBtn">Check Nearest</button>
+        </fieldset>
+        <table v-if='tramEta.length > 0'>
+            <tr>
                 <th>Final Stop</th>
                 <th>ETA</th>
             </tr>
@@ -42,13 +45,21 @@
                 }
             })
 
-            var checkEastboundBtn = document.getElementById('checkEastbound');
-            var checkWestboundBtn = document.getElementById('checkWestbound');
-            checkEastboundBtn.addEventListener('click', function (el, ev) {
+            var tramData
+            window.loadTramStops = (data) => {
+                tramData = data
+            }
+
+            var stopCodeIpt = document.getElementById('stopCodeIpt');
+            var checkInputBtn = document.getElementById('checkInputBtn');
+            var checkNearestBtn = document.getElementById('checkNearestBtn');
+
+            checkInputBtn.addEventListener('click', function (el, ev) {
                 var xhr = new XMLHttpRequest();
                 xhr.open('GET',
-                    'https://53tbcx200c.execute-api.ap-northeast-1.amazonaws.com/prod/get_tram_eta?stop=71E'
+                    `https://53tbcx200c.execute-api.ap-northeast-1.amazonaws.com/prod/get_tram_eta?stop=${stopCodeIpt.value}`
                 );
+                app.tramEta = []
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
                         var resData = JSON.parse(xhr.responseText)
@@ -58,22 +69,47 @@
                 };
                 xhr.send();
             });
-            checkWestboundBtn.addEventListener('click', function (el, ev) {
-                var xhr = new XMLHttpRequest();
-                xhr.open('GET',
-                    'https://53tbcx200c.execute-api.ap-northeast-1.amazonaws.com/prod/get_tram_eta?stop=30W'
-                );
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === XMLHttpRequest.DONE) {
-                        var resData = JSON.parse(xhr.responseText)
-                        if ('metadata' in resData.root)
-                            app.tramEta = resData.root.metadata
+
+            checkNearestBtn.addEventListener('click', function (el, ev) {
+                if (!("geolocation" in navigator)) return
+
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    loadNearestStops(position.coords.latitude, position.coords.longitude)
+                })
+
+                function loadNearestStops (lat, lng) {
+                    if (!tramData) return
+
+                    var lowestDist = 1
+                    var nearestStop = ''
+                    for (let tramStopCode in tramData) {
+                        var coords = tramData[tramStopCode]['Coordinates']
+                        var roughDist = Math.sqrt(
+                            Math.pow(lat - coords[0], 2) + Math.pow(lng - coords[1], 2)
+                        )
+                        if (roughDist < lowestDist) {
+                            lowestDist = roughDist
+                            nearestStop = tramStopCode
+                        }
                     }
-                };
-                xhr.send();
+
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET',
+                        `https://53tbcx200c.execute-api.ap-northeast-1.amazonaws.com/prod/get_tram_eta?stop=${nearestStop}`
+                    );
+                    xhr.onreadystatechange = function () {
+                        if (xhr.readyState === XMLHttpRequest.DONE) {
+                            var resData = JSON.parse(xhr.responseText)
+                            if ('metadata' in resData.root)
+                                app.tramEta = resData.root.metadata
+                        }
+                    };
+                    xhr.send();
+                }
             });
         }())
     </script>
+    <script src="/loadTramStops.js"></script>
 </body>
 
 </html>
