@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,70 +10,70 @@
             location.href = location.href.replace(/^http:/, 'https:');
         }
     </script>
-    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
-    <script type="text/javascript">
-        var appInsights=window.appInsights||function(config){
-        function i(config){t[config]=function(){var i=arguments;t.queue.push(function(){t[config].apply(t,i)})}}var t={config:config},u=document,e=window,o="script",s="AuthenticatedUserContext",h="start",c="stop",l="Track",a=l+"Event",v=l+"Page",y=u.createElement(o),r,f;y.src=config.url||"https://az416426.vo.msecnd.net/scripts/a/ai.0.js";u.getElementsByTagName(o)[0].parentNode.appendChild(y);try{t.cookie=u.cookie}catch(p){}for(t.queue=[],t.version="1.0",r=["Event","Exception","Metric","PageView","Trace","Dependency"];r.length;)i("track"+r.pop());return i("set"+s),i("clear"+s),i(h+a),i(c+a),i(h+v),i(c+v),i("flush"),config.disableExceptionTracking||(r="onerror",i("_"+r),f=e[r],e[r]=function(config,i,u,e,o){var s=f&&f(config,i,u,e,o);return s!==!0&&t["_"+r](config,i,u,e,o),s}),t
-        }({
-            instrumentationKey:"b98d4162-427f-4626-9742-50391ec88b8d"
-        });
-        window.appInsights=appInsights;
-        appInsights.trackPageView();
+    <script>
+        var appInsights=window.appInsights||function(e){function t(e){i[e]=function(){var t=arguments;i.queue.push(function(){i[e].apply(i,t)})}}var n,a,i={config:e},r=document,c=window,s="script",o="AuthenticatedUserContext",p="start",u="stop",d="Track",g=d+"Event",h=d+"Page",f=r.createElement(s);f.src=e.url||"https://az416426.vo.msecnd.net/scripts/a/ai.0.js",r.getElementsByTagName(s)[0].parentNode.appendChild(f);try{i.cookie=r.cookie}catch(e){}for(i.queue=[],i.version="1.0",n=["Event","Exception","Metric","PageView","Trace","Dependency"];n.length;)t("track"+n.pop());return t("set"+o),t("clear"+o),t(p+g),t(u+g),t(p+h),t(u+h),t("flush"),e.disableExceptionTracking||(n="onerror",t("_"+n),a=c[n],c[n]=function(e,t,r,c,s){var o=a&&a(e,t,r,c,s);return!0!==o&&i["_"+n](e,t,r,c,s),o}),i}({instrumentationKey:"b98d4162-427f-4626-9742-50391ec88b8d"});window.appInsights=appInsights,appInsights.trackPageView();
     </script>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
 </head>
-<body>
-  <div id='app'>
-    <div>
-        <button type="button" id="checkEastbound">Check Eastbound (Chai Wan)</button>
-        <button type="button" id="checkWestbound">Check Westbound (Kennedy Town)</button>
-    </div>
-    <table>
-      <tr v-if='tramEta.length > 0'>
-        <th>Final Stop</th>
-        <th>ETA</th>
-      </tr>
-      <tr v-for='eta in tramEta'>
-        <td>{{eta.$.tram_dest_en}}</td>
-        <td>{{eta.$.arrive_in_minute}}</td>
-      </tr>
-    </table>
-  </div>
-  <script>
-      (function () {
-          var app = new Vue({
-            el: '#app',
-            data: {
-              tramEta: []
-            }
-          })
 
-          var checkEastboundBtn = document.getElementById('checkEastbound');
-          var checkWestboundBtn = document.getElementById('checkWestbound');
-          checkEastboundBtn.addEventListener('click', function (el, ev) {
-              var xhr = new XMLHttpRequest();
-              xhr.open('GET', 'https://53tbcx200c.execute-api.ap-northeast-1.amazonaws.com/prod/get_tram_eta?stop=71E');
-              xhr.onreadystatechange = function () {
-                  if (xhr.readyState === XMLHttpRequest.DONE) {
-                    var resData = JSON.parse(xhr.responseText)
-                    if ('metadata' in resData.root)
-                      app.tramEta = resData.root.metadata
-                  }
-              };
-              xhr.send();
-          });
-          checkWestboundBtn.addEventListener('click', function (el, ev) {
-              var xhr = new XMLHttpRequest();
-              xhr.open('GET', 'https://53tbcx200c.execute-api.ap-northeast-1.amazonaws.com/prod/get_tram_eta?stop=30W');
-              xhr.onreadystatechange = function () {
-                  if (xhr.readyState === XMLHttpRequest.DONE) {
-                    var resData = JSON.parse(xhr.responseText)
-                    if ('metadata' in resData.root)
-                      app.tramEta = resData.root.metadata
-                  }
-              };
-              xhr.send();
-          });
-      }())
-  </script>
+<body>
+    <div id='app'>
+        <div>
+            <button type="button" id="checkEastbound">Check Eastbound (Chai Wan)</button>
+            <button type="button" id="checkWestbound">Check Westbound (Kennedy Town)</button>
+        </div>
+        <table>
+            <tr v-if='tramEta.length > 0'>
+                <th>Final Stop</th>
+                <th>ETA</th>
+            </tr>
+            <tr v-for='eta in tramEta'>
+                <td>{{eta.$.tram_dest_en}}</td>
+                <td>{{eta.$.arrive_in_minute}}</td>
+            </tr>
+        </table>
+    </div>
+    <script>
+        (function () {
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    tramEta: []
+                }
+            })
+
+            var checkEastboundBtn = document.getElementById('checkEastbound');
+            var checkWestboundBtn = document.getElementById('checkWestbound');
+            checkEastboundBtn.addEventListener('click', function (el, ev) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET',
+                    'https://53tbcx200c.execute-api.ap-northeast-1.amazonaws.com/prod/get_tram_eta?stop=71E'
+                );
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        var resData = JSON.parse(xhr.responseText)
+                        if ('metadata' in resData.root)
+                            app.tramEta = resData.root.metadata
+                    }
+                };
+                xhr.send();
+            });
+            checkWestboundBtn.addEventListener('click', function (el, ev) {
+                var xhr = new XMLHttpRequest();
+                xhr.open('GET',
+                    'https://53tbcx200c.execute-api.ap-northeast-1.amazonaws.com/prod/get_tram_eta?stop=30W'
+                );
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        var resData = JSON.parse(xhr.responseText)
+                        if ('metadata' in resData.root)
+                            app.tramEta = resData.root.metadata
+                    }
+                };
+                xhr.send();
+            });
+        }())
+    </script>
 </body>
+
 </html>
