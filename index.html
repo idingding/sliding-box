@@ -6,9 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Check DingDing</title>
     <script>
-        if (location.protocol === 'http:') {
-            location.href = location.href.replace(/^http:/, 'https:');
-        }
+        if (location.protocol === 'http:' && location.hostname !== 'localhost')
+            location.href = location.href.replace(/^http:/, 'https:')
     </script>
     <script>
         var appInsights=window.appInsights||function(e){function t(e){i[e]=function(){var t=arguments;i.queue.push(function(){i[e].apply(i,t)})}}var n,a,i={config:e},r=document,c=window,s="script",o="AuthenticatedUserContext",p="start",u="stop",d="Track",g=d+"Event",h=d+"Page",f=r.createElement(s);f.src=e.url||"https://az416426.vo.msecnd.net/scripts/a/ai.0.js",r.getElementsByTagName(s)[0].parentNode.appendChild(f);try{i.cookie=r.cookie}catch(e){}for(i.queue=[],i.version="1.0",n=["Event","Exception","Metric","PageView","Trace","Dependency"];n.length;)t("track"+n.pop());return t("set"+o),t("clear"+o),t(p+g),t(u+g),t(p+h),t(u+h),t("flush"),e.disableExceptionTracking||(n="onerror",t("_"+n),a=c[n],c[n]=function(e,t,r,c,s){var o=a&&a(e,t,r,c,s);return!0!==o&&i["_"+n](e,t,r,c,s),o}),i}({instrumentationKey:"b98d4162-427f-4626-9742-50391ec88b8d"});window.appInsights=appInsights,appInsights.trackPageView();
@@ -25,50 +24,54 @@
         <fieldset>
             <button type="button" id="checkNearestBtn">Check Nearest</button>
         </fieldset>
-        <table v-if='tramEta.length > 0'>
-            <tr>
-                <th>Final Stop</th>
-                <th>ETA</th>
-            </tr>
-            <tr v-for='eta in tramEta'>
-                <td>{{eta.$.tram_dest_en}}</td>
-                <td>{{eta.$.arrive_in_minute}}</td>
-            </tr>
-        </table>
+        <div v-if='tramEta.length > 0'>
+            <table v-for='dataSet in tramEta'>
+                <caption>{{dataSet[0]}} - {{tramData[dataSet[0]]['Names'][0]}}</caption>
+                <tr>
+                    <th>Destination</th>
+                    <th>X mins to arrive</th>
+                </tr>
+                <tr v-for='eta in dataSet[1]'>
+                    <td>{{eta.$.tram_dest_en}}</td>
+                    <td>{{eta.$.arrive_in_minute}}</td>
+                </tr>
+            </table>
+        </div>
     </div>
     <script>
         (function () {
             var app = new Vue({
                 el: '#app',
                 data: {
-                    tramEta: []
+                    tramEta: [],
+                    tramData: null
                 }
             })
 
-            var tramData
             window.loadTramStops = (data) => {
-                tramData = data
+                app.tramData = data
             }
 
-            var stopCodeIpt = document.getElementById('stopCodeIpt');
-            var checkInputBtn = document.getElementById('checkInputBtn');
-            var checkNearestBtn = document.getElementById('checkNearestBtn');
+            var stopCodeIpt = document.getElementById('stopCodeIpt')
+            var checkInputBtn = document.getElementById('checkInputBtn')
+            var checkNearestBtn = document.getElementById('checkNearestBtn')
 
             checkInputBtn.addEventListener('click', function (el, ev) {
-                var xhr = new XMLHttpRequest();
+                var stopCode = stopCodeIpt.value
+                var xhr = new XMLHttpRequest()
                 xhr.open('GET',
-                    `https://53tbcx200c.execute-api.ap-northeast-1.amazonaws.com/prod/get_tram_eta?stop=${stopCodeIpt.value}`
-                );
+                    `https://53tbcx200c.execute-api.ap-northeast-1.amazonaws.com/prod/get_tram_eta?stop=${stopCode}`
+                )
                 app.tramEta = []
                 xhr.onreadystatechange = function () {
                     if (xhr.readyState === XMLHttpRequest.DONE) {
                         var resData = JSON.parse(xhr.responseText)
                         if ('metadata' in resData.root)
-                            app.tramEta = resData.root.metadata
+                            app.tramEta.push([stopCode, resData.root.metadata])
                     }
                 };
-                xhr.send();
-            });
+                xhr.send()
+            })
 
             checkNearestBtn.addEventListener('click', function (el, ev) {
                 if (!("geolocation" in navigator)) return
@@ -78,12 +81,12 @@
                 })
 
                 function loadNearestStops (lat, lng) {
-                    if (!tramData) return
+                    if (!app.tramData) return
 
                     var lowestDist = 1
                     var nearestStop = ''
-                    for (let tramStopCode in tramData) {
-                        var coords = tramData[tramStopCode]['Coordinates']
+                    for (let tramStopCode in app.tramData) {
+                        var coords = app.tramData[tramStopCode]['Coordinates']
                         var roughDist = Math.sqrt(
                             Math.pow(lat - coords[0], 2) + Math.pow(lng - coords[1], 2)
                         )
@@ -93,20 +96,21 @@
                         }
                     }
 
-                    var xhr = new XMLHttpRequest();
+                    var xhr = new XMLHttpRequest()
                     xhr.open('GET',
                         `https://53tbcx200c.execute-api.ap-northeast-1.amazonaws.com/prod/get_tram_eta?stop=${nearestStop}`
-                    );
+                    )
+                    app.tramEta = []
                     xhr.onreadystatechange = function () {
                         if (xhr.readyState === XMLHttpRequest.DONE) {
                             var resData = JSON.parse(xhr.responseText)
                             if ('metadata' in resData.root)
-                                app.tramEta = resData.root.metadata
+                                app.tramEta.push([nearestStop, resData.root.metadata])
                         }
                     };
-                    xhr.send();
+                    xhr.send()
                 }
-            });
+            })
         }())
     </script>
     <script src="/loadTramStops.js"></script>
