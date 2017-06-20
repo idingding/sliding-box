@@ -2,7 +2,6 @@ module.exports = {
     entry: './src/scripts/app.js',
     output: {
         path: __dirname + '/build',
-        publicPath: '/build/',
         filename: 'app.min.js'
     },
     resolve: {
