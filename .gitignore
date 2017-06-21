@@ -1,10 +1,9 @@
+# Created by https://www.gitignore.io/api/node,visualstudio,visualstudiocode
+
 ### Project ###
 # Build
-build/*
-!build/index.html
-
-
-# Created by https://www.gitignore.io/api/node,visualstudio,visualstudiocode
+build/*.js
+build/*.css
 
 ### Node ###
 # Logs
