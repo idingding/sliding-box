@@ -1,4 +1,4 @@
-# iDingDing
+# Sliding Box
 
 [![Build Status](https://travis-ci.org/idingding/sliding-box.svg?branch=master)](https://travis-ci.org/idingding/sliding-box)
 
