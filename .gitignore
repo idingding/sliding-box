@@ -1,6 +1,7 @@
 ### Project ###
 # Build
-build/app.min.js
+build/*
+!build/index.html
 
 
 # Created by https://www.gitignore.io/api/node,visualstudio,visualstudiocode

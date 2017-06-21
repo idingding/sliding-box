@@ -1,4 +1,4 @@
-require('../scss/app.scss')
+require('../sass/app.scss')
 
 var Vue = require('vue')
 
