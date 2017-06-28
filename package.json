@@ -26,6 +26,7 @@
     "css-loader": "^0.28.4",
     "extract-text-webpack-plugin": "^2.1.2",
     "node-sass": "^4.5.3",
+    "normalize.css": "^7.0.0",
     "sass-loader": "^6.0.6",
     "standard": "^10.0.2",
     "style-loader": "^0.18.2",
