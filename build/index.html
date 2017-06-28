@@ -13,15 +13,13 @@
     </script>
 </head>
 <body>
-    <div id='app' v-cloak>
-        <fieldset>
-            <input type="text" id="stopCodeIpt" pattern="[0-9A-Za-z_]+" maxlength="5" placeholder="Stop code name">
-            <button type="button" id="checkInputBtn">Check</button>
-        </fieldset>
-        <fieldset>
+    <div id='app' class="container" v-cloak>
+        <form>
+            <input type="text" id="stopCodeIpt" pattern="[0-9A-Za-z_]+" maxlength="5" placeholder="e.g. 71E">
+            <button type="button" id="checkInputBtn">Check</button> or...
             <button type="button" id="checkNearestBtn">Check Nearest</button>
-        </fieldset>
-        <div v-if='userCoords.length > 0'>{{userCoords[0]}} {{userCoords[1]}}</div>
+        </form>
+
         <div v-if='tramEta.length > 0'>
             <table v-for='dataSet in tramEta'>
                 <caption>{{dataSet[0]}} - {{tramData[dataSet[0]]['Names'][0]}}</caption>
@@ -31,7 +29,7 @@
                 </tr>
                 <tr v-for='eta in dataSet[1]'>
                     <td>{{eta.$.tram_dest_en}}</td>
-                    <td>{{eta.$.arrive_in_minute}}</td>
+                    <td>{{eta.$.arrive_in_minute}}</td>      
                 </tr>
             </table>
         </div>
