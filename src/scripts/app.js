@@ -1,4 +1,3 @@
-require('normalize.css')
 require('../sass/app.scss')
 
 var Vue = require('vue')
