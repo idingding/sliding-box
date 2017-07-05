@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Aim to offer a better web app for users to check when the next trams will come. \r Intend to be fast, bandwidth-saving, mobile-first and user-friendly.",
   "scripts": {
-    "start": "webpack-dev-server --open",
+    "start": "webpack-dev-server --inline --open",
     "test": "standard",
     "watch": "webpack --watch",
     "build": "webpack -p"

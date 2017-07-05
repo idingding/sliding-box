@@ -7,6 +7,9 @@ module.exports = {
     path: path.resolve(__dirname, 'build'),
     filename: 'app.min.js'
   },
+  devServer: {
+    contentBase: 'build'
+  },
   resolve: {
     alias: {
       'vue': 'vue/dist/vue.min.js'
