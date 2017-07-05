@@ -33,7 +33,7 @@
             type="button"
             class="stations__locate"
             v-on:click="loadNearest">
-            <span class="material-icons">my_location</span>
+            <span class="material-icons">&#xE55C;</span>
           </button>
         </div>
       </div>
@@ -44,7 +44,7 @@
         <caption><b>{{dataSet[0]}} - {{tramData[dataSet[0]]['Names'][0]}}</b></caption>
         <tr>
           <th>Destination</th>
-          <th>ETA (mins) <span class="material-icons">face</span></th>
+          <th>ETA (mins)</th>
         </tr>
         <tr v-for='eta in dataSet[1]'>
           <td>{{eta.$.tram_dest_en}}</td>

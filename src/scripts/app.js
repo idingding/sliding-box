@@ -63,7 +63,7 @@ function requestData (stopCodeName) {
   xhr.onreadystatechange = function () {
     if (xhr.readyState === window.XMLHttpRequest.DONE) {
       var resData = JSON.parse(xhr.responseText)
-      if ('metadata' in resData.root) {
+      if (resData.root) {
         app.tramEta.push([stopCodeName, resData.root.metadata])
       }
     }
