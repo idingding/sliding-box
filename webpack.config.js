@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
@@ -8,7 +9,12 @@ module.exports = {
     filename: 'app.min.js'
   },
   devServer: {
-    contentBase: 'build'
+    contentBase: path.resolve(__dirname, 'build'),
+    watchContentBase: true,
+    compress: true,
+    overlay: true,
+    inline: true,
+    hot: true
   },
   resolve: {
     alias: {
@@ -36,6 +42,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new ExtractTextPlugin('styles.min.css')
+    new ExtractTextPlugin('styles.min.css'),
+    new webpack.HotModuleReplacementPlugin()
   ]
 }

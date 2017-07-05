@@ -1,53 +1,59 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sliding Box</title>
-    <link rel="icon" href="assets/favicon.ico">
-    <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="styles.min.css">
-    <script>
-        var appInsights=window.appInsights||function(e){function t(e){i[e]=function(){var t=arguments;i.queue.push(function(){i[e].apply(i,t)})}}var n,a,i={config:e},r=document,c=window,s="script",o="AuthenticatedUserContext",p="start",u="stop",d="Track",g=d+"Event",h=d+"Page",f=r.createElement(s);f.src=e.url||"https://az416426.vo.msecnd.net/scripts/a/ai.0.js",r.getElementsByTagName(s)[0].parentNode.appendChild(f);try{i.cookie=r.cookie}catch(e){}for(i.queue=[],i.version="1.0",n=["Event","Exception","Metric","PageView","Trace","Dependency"];n.length;)t("track"+n.pop());return t("set"+o),t("clear"+o),t(p+g),t(u+g),t(p+h),t(u+h),t("flush"),e.disableExceptionTracking||(n="onerror",t("_"+n),a=c[n],c[n]=function(e,t,r,c,s){var o=a&&a(e,t,r,c,s);return!0!==o&&i["_"+n](e,t,r,c,s),o}),i}({instrumentationKey:"b98d4162-427f-4626-9742-50391ec88b8d"});window.appInsights=appInsights,appInsights.trackPageView();
-    </script>
-</head>
-<body>
-    <div id='app' class="container" v-cloak>
-        <form class="stations">
-            <div class="row row--gutters row--center">
-                <div class="col col--auto">
-                    <select class="stations__selector">
-                        <option value="A">AAA</option>
-                        <option value="B">BBB</option>
-                        <option value="C">CCC</option>
-                    </select>
-                </div>
-                <div class="col col--initial">
-                    <span class="stations__text">Or...</span>
-                </div>
-                <div class="col col--initial">
-                    <button type="button" class="stations__locate">
-                        <span class="material-icons">my_location</span>
-                    </button>
-                </div>
-            </div>
-        </form>
 
-        <div v-if='tramEta.length > 0'>
-            <table v-for='dataSet in tramEta'>
-                <caption><b>{{dataSet[0]}} - {{tramData[dataSet[0]]['Names'][0]}}</b></caption>
-                <tr>
-                    <th>Destination</th>
-                    <th>ETA (mins) <span class="material-icons">face</span></th>
-                </tr>
-                <tr v-for='eta in dataSet[1]'>
-                    <td>{{eta.$.tram_dest_en}}</td>
-                    <td>{{eta.$.arrive_in_minute}}</td>      
-                </tr>
-            </table>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Sliding Box</title>
+  <link rel="icon" href="assets/favicon.ico">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.min.css">
+</head>
+
+<body>
+  <div id='app' class="container" v-cloak>
+    <form class="stations">
+      <div class="row row--gutters row--center">
+        <div class="col col--auto">
+          <select
+            class="stations__selector"
+            v-on:change="loadSelected">
+            <option value="">Which station to check?</option>
+            <option
+              v-for="option in stationOptions"
+              v-bind:value="option[0]">{{option[0]}} - {{option[1]}}</option>
+          </select>
         </div>
+        <div class="col col--initial">
+          <b class="stations__text">|</b>
+        </div>
+        <div class="col col--initial">
+          <button
+            type="button"
+            class="stations__locate"
+            v-on:click="loadNearest">
+            <span class="material-icons">my_location</span>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div v-if='tramEta.length > 0'>
+      <table v-for='dataSet in tramEta'>
+        <caption><b>{{dataSet[0]}} - {{tramData[dataSet[0]]['Names'][0]}}</b></caption>
+        <tr>
+          <th>Destination</th>
+          <th>ETA (mins) <span class="material-icons">face</span></th>
+        </tr>
+        <tr v-for='eta in dataSet[1]'>
+          <td>{{eta.$.tram_dest_en}}</td>
+          <td>{{eta.$.arrive_in_minute}}</td>
+        </tr>
+      </table>
     </div>
-    <script src="app.min.js"></script>
+  </div>
+  <script src="app.min.js"></script>
 </body>
+
 </html>

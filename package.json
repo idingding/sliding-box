@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Aim to offer a better web app for users to check when the next trams will come. \r Intend to be fast, bandwidth-saving, mobile-first and user-friendly.",
   "scripts": {
-    "start": "webpack-dev-server --inline --open",
+    "start": "webpack-dev-server --open",
     "test": "standard",
     "watch": "webpack --watch",
     "build": "webpack -p"
@@ -33,5 +33,10 @@
     "vue": "^2.3.4",
     "webpack": "^2.6.1",
     "webpack-dev-server": "^2.5.0"
+  },
+  "standard": {
+    "ignore": [
+      "**/appInsights.js"
+    ]
   }
 }
