@@ -17,7 +17,9 @@
         <form>
             <input type="text" id="stopCodeIpt" pattern="[0-9A-Za-z_]+" maxlength="5" placeholder="e.g. 71E">
             <button type="button" id="checkInputBtn">Check</button> or...
-            <button type="button" id="checkNearestBtn">Check Nearest</button>
+            <button type="button" class="button button--icon" id="checkNearestBtn">
+                <span class="material-icons">my_location</span>
+            </button>
         </form>
 
         <div v-if='tramEta.length > 0'>
@@ -25,7 +27,7 @@
                 <caption><b>{{dataSet[0]}} - {{tramData[dataSet[0]]['Names'][0]}}</b></caption>
                 <tr>
                     <th>Destination</th>
-                    <th>ETA (mins)</th>
+                    <th>ETA (mins) <span class="material-icons">face</span></th>
                 </tr>
                 <tr v-for='eta in dataSet[1]'>
                     <td>{{eta.$.tram_dest_en}}</td>
