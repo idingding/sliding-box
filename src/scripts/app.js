@@ -11,6 +11,7 @@ var app = new Vue({
   }
 })
 
+/*
 var stopCodeIpt = document.getElementById('stopCodeIpt')
 var checkInputBtn = document.getElementById('checkInputBtn')
 var checkNearestBtn = document.getElementById('checkNearestBtn')
@@ -76,3 +77,4 @@ checkNearestBtn.addEventListener('click', function (el, ev) {
     })
   }
 })
+*/

@@ -14,12 +14,24 @@
 </head>
 <body>
     <div id='app' class="container" v-cloak>
-        <form>
-            <input type="text" id="stopCodeIpt" pattern="[0-9A-Za-z_]+" maxlength="5" placeholder="e.g. 71E">
-            <button type="button" id="checkInputBtn">Check</button> or...
-            <button type="button" class="button button--icon" id="checkNearestBtn">
-                <span class="material-icons">my_location</span>
-            </button>
+        <form class="stations">
+            <div class="row row--gutters row--center">
+                <div class="col col--auto">
+                    <select class="stations__selector">
+                        <option value="A">AAA</option>
+                        <option value="B">BBB</option>
+                        <option value="C">CCC</option>
+                    </select>
+                </div>
+                <div class="col col--initial">
+                    <span class="stations__text">Or...</span>
+                </div>
+                <div class="col col--initial">
+                    <button type="button" class="stations__locate">
+                        <span class="material-icons">my_location</span>
+                    </button>
+                </div>
+            </div>
         </form>
 
         <div v-if='tramEta.length > 0'>
