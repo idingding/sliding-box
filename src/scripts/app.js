@@ -9,7 +9,6 @@ appInsights()
 
 // View Model
 const Vue = require('vue')
-
 var app = new Vue({
   el: '#app',
   data: {
@@ -36,7 +35,7 @@ var app = new Vue({
   methods: {
     loadSelected: function (evt) {
       app.tramEta = []
-      requestData(evt.target.value)
+      if (evt.target.value) requestData(evt.target.value)
     },
     loadNearest: function (evt) {
       if (!('geolocation' in navigator)) return
@@ -49,7 +48,7 @@ var app = new Vue({
         app.tramEta = []
 
         calculateNearestStops(lat, lng).forEach((stopData) => {
-          requestData(stopData[0])
+          if (stopData[0]) requestData(stopData[0])
         })
       })
     }
