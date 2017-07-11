@@ -5,11 +5,25 @@ body {
     background-color: $color-primary;
 }
 
+.full-height {
+    height: 100%;
+}
+
+.overlay {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(#000, 0.5);
+    cursor: not-allowed;
+}
+
 .container {
     margin: 0 auto;
     padding: 1rem 0;
     width: 90%;
-    max-width: 900px;
+    max-width: 450px;
 }
 
 .row {
@@ -33,6 +47,10 @@ body {
 
     &--center {
         align-items: center;
+    }
+
+    &--v-center {
+        justify-content: center;
     }
 }
 

@@ -12,6 +12,7 @@ const Vue = require('vue')
 var app = new Vue({
   el: '#app',
   data: {
+    busy: false,
     tramEta: [],
     tramData: require('./tramStopsData.js'),
     userCoords: []
@@ -34,6 +35,7 @@ var app = new Vue({
   },
   methods: {
     loadSelected: function (evt) {
+      setAppBusy()
       app.tramEta = []
       if (evt.target.value) requestData(evt.target.value)
     },
@@ -47,6 +49,7 @@ var app = new Vue({
         app.userCoords = [lat, lng]
         app.tramEta = []
 
+        setAppBusy()
         calculateNearestStops(lat, lng).forEach((stopData) => {
           if (stopData[0]) requestData(stopData[0])
         })
@@ -54,6 +57,14 @@ var app = new Vue({
     }
   }
 })
+
+function setAppBusy () {
+  app.busy = true
+}
+
+function setAppFree () {
+  app.busy = false
+}
 
 function requestData (stopCodeName) {
   var xhr = new window.XMLHttpRequest()
@@ -66,6 +77,7 @@ function requestData (stopCodeName) {
       if (resData.root) {
         app.tramEta.push([stopCodeName, resData.root.metadata])
       }
+      setAppFree()
     }
   }
   xhr.send()

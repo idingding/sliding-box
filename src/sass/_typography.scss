@@ -11,3 +11,13 @@ table {
 td {
     text-align: center;
 }
+
+.text {
+    &--center {
+        text-align: center;
+    }
+
+    &--light-color {
+        color: $color-primary-light;
+    }
+}
