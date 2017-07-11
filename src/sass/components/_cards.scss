@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css?family=Special+Elite');
+
+.cards {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: #fff;
+
+    .card:not(:first-child) {
+        margin-top: 1rem;
+    }
+}
+
+.card {
+    padding: 1rem;
+    background-color: $color-primary-light;
+    font-family: 'Special Elite', cursive;
+    text-align: center;
+    box-shadow: 2px 2px 5px #ccc;
+
+    table {
+        margin: 0 auto;
+        font-weight: bold;
+    }
+}
