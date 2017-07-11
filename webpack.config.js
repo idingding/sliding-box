@@ -10,7 +10,6 @@ module.exports = {
   },
   devServer: {
     contentBase: path.resolve(__dirname, 'build'),
-    watchContentBase: true,
     compress: true,
     overlay: true,
     inline: true,
