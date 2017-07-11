@@ -50,18 +50,20 @@
         </div>
       </form>
 
-      <div v-if='tramEta.length > 0'>
-        <table v-for='dataSet in tramEta'>
-          <caption><b>{{dataSet[0]}} - {{tramData[dataSet[0]]['Names'][0]}}</b></caption>
-          <tr>
-            <th>Destination</th>
-            <th>ETA (mins)</th>
-          </tr>
-          <tr v-for='eta in dataSet[1]'>
-            <td>{{eta.$.tram_dest_en}}</td>
-            <td>{{eta.$.arrive_in_minute}}</td>
-          </tr>
-        </table>
+      <div class="cards" v-if='tramEta.length > 0'>
+        <div class="card" v-for='dataSet in tramEta'>
+          <table>
+            <caption>{{dataSet[0]}} - {{tramData[dataSet[0]]['Names'][0]}}</caption>
+            <tr>
+              <th>Destination</th>
+              <th>ETA (mins)</th>
+            </tr>
+            <tr v-for='eta in dataSet[1]'>
+              <td>{{eta.$.tram_dest_en}}</td>
+              <td>{{eta.$.arrive_in_minute}}</td>
+            </tr>
+          </table>
+        </div>
       </div>
     </div>
   </div>
