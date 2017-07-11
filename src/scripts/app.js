@@ -42,18 +42,29 @@ var app = new Vue({
     loadNearest: function (evt) {
       if (!('geolocation' in navigator)) return
 
-      navigator.geolocation.getCurrentPosition(function (position) {
+      setAppBusy()
+      navigator.geolocation.getCurrentPosition(ok, err, {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 5000 // Cache coords
+      })
+
+      function ok (position) {
         var lat = position.coords.latitude
         var lng = position.coords.longitude
 
         app.userCoords = [lat, lng]
         app.tramEta = []
 
-        setAppBusy()
         calculateNearestStops(lat, lng).forEach((stopData) => {
           if (stopData[0]) requestData(stopData[0])
         })
-      })
+      }
+
+      function err (err) {
+        setAppFree()
+        console.warn(`Geolocation failed: ${err.code} / ${err.message}`)
+      }
     }
   }
 })
