@@ -4,6 +4,7 @@
     margin-top: 1rem;
     padding: 1rem;
     background-color: #fff;
+    @extend %shadow-depth-1;
 
     .card:not(:first-child) {
         margin-top: 1rem;
@@ -15,7 +16,7 @@
     background-color: $color-primary-light;
     font-family: 'Special Elite', cursive;
     text-align: center;
-    box-shadow: 2px 2px 5px #ccc;
+    @extend %shadow-depth-1;
 
     table {
         margin: 0 auto;
