@@ -3,10 +3,6 @@
 // Stylesheets
 require('../sass/app.scss')
 
-// Analytics
-const appInsights = require('./appInsights.js')
-appInsights()
-
 // View Model
 const Vue = require('vue')
 var app = new Vue({
