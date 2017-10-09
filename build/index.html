@@ -62,7 +62,8 @@
             </tr>
             <tr v-for='eta in dataSet[1]'>
               <td>{{eta.$.tram_dest_en}}</td>
-              <td>{{eta.$.arrive_in_minute}}</td>
+              <td v-if="eta.$.is_arrived === '1'">Arrived</td>
+              <td v-else>{{eta.$.arrive_in_minute}}</td>
             </tr>
           </table>
         </div>
